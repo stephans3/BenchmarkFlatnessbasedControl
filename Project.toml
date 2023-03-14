@@ -3,6 +3,13 @@ uuid = "cbbf83f9-9c78-47c1-b387-9c931e6ee0ec"
 authors = ["Stephan Scholz"]
 version = "0.1.0"
 
+[deps]
+BellBruno = "2cc14a73-b19f-41ce-8eb5-0eba8210e186"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
+FastGaussQuadrature = "442a2c76-b920-505d-bb47-c5924d526838"
+Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+
 [compat]
 julia = "1.8"
 

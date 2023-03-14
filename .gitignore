@@ -1,1 +1,7 @@
 /docs/build/
+
+/results/figures/
+/results/h_results/
+/results/u_input/
+
+Manifest.toml
