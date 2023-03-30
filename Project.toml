@@ -12,6 +12,8 @@ OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 
 [compat]
 Makie = "0.19"
+FastGaussQuadrature = "0.5"
+BellBruno = "0.2"
 julia = "1.8"
 
 [extras]
