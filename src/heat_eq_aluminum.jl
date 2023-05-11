@@ -12,10 +12,13 @@ c = 900;  # Specific heat capacity
 α = λ / (ρ * c) # Diffusivity
 
 
-
 using DelimitedFiles
-path_2_file = string("u_aluminum.txt")
+w = 2.0
+path_2_file = string("results/u_input/"*"u_aluminum_w_" * string(round(Int64, w*10)) * ".txt")
 u_data = readdlm(path_2_file, '\t', BigFloat, '\n')[:]
+
+# path_2_file = string("u_aluminum.txt")
+# u_data = readdlm(path_2_file, '\t', BigFloat, '\n')[:]
 u_data = vcat(0, u_data, 0)
 
 function input_signal(t,dt)
@@ -88,15 +91,11 @@ sol = solve(prob,alg, saveat = ts)
 # alg = Euler()    # Numerical integrator
 # sol = solve(prob,alg,dt=0.2*(Δx^2/α), saveat = ts)
 
-
-
-
-
 using CairoMakie
 tgrid = sol.t;
 
-fig1 = Figure(fontsize=12)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", ylabelsize = 22,
+fig1 = Figure(fontsize=20)
+ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
@@ -104,10 +103,10 @@ ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", 
     ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
 ax1.xticks = 0 : 100 : Tf;
-#ax1.yticks = -40 : 10 : 40;
-lines!(tgrid, sol[26,:]; linestyle = :dash,linewidth = 3, label = "x=0.05 m")
-lines!(tgrid, sol[51,:]; linestyle = :dashdotdot,linewidth = 3, label = "x=0.1 m (center)")
+ax1.yticks = 300 : 20 : 460;
+lines!(tgrid, sol[26,:]; linestyle = :dot,linewidth = 3, label = "x=0.05 m")
+lines!(tgrid, sol[51,:]; linestyle = :dash,linewidth = 3, label = "x=0.1 m (center)")
 lines!(tgrid, sol[end,:];linewidth = 3, label = "x=0.2 m (right side)")
 axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
 fig1
-save("he_aluminum.pdf", fig1, pt_per_unit = 1)
+save("results/figures/"*"he_aluminum.pdf", fig1, pt_per_unit = 1)

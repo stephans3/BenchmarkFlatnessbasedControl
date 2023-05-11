@@ -5,3 +5,5 @@
 /results/u_input/
 
 Manifest.toml
+/docs/*
+/docs/Manifest.toml

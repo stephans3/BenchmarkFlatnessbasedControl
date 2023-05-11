@@ -20,14 +20,9 @@ const dt = 1.0;     # Time step width
 
 using DelimitedFiles
 w = 2.0
-path_2_file = string("results/u_input/"*"u_aluminum_w_" * string(round(Int64, w*10)) * ".txt")
-u_data = readdlm(path_2_file, '\t', BigFloat, '\n')[:]
-u_data = 1.5 * u_data;
-
-#=
 path_2_file = string("results/u_input/"*"u_steel_w_" * string(round(Int64, w*10)) * ".txt")
 u_data = readdlm(path_2_file, '\t', BigFloat, '\n')[:]
-=#
+
 u_data = vcat(0, u_data, 0)
 idx_nan = findall(isnan.(u_data))
 u_data[idx_nan] .= 0.0
@@ -86,7 +81,7 @@ end
 using OrdinaryDiffEq
 
 x0 = 300 * ones(Nx) # Intial values
-tspan = (0.0, 2*Tf)   # Time span
+tspan = (0.0, Tf)   # Time span
 alg = KenCarp4()    # Numerical integrator
 
 prob = ODEProblem(heat_eq!,x0,tspan)
@@ -96,8 +91,8 @@ sol = solve(prob,alg, saveat = dt)
 using CairoMakie
 tgrid = sol.t;
 
-fig1 = Figure(fontsize=12)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", ylabelsize = 22,
+fig1 = Figure(fontsize=20)
+ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
@@ -105,9 +100,9 @@ ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", 
     ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
 ax1.xticks = 0 : 100 : Tf;
-#ax1.yticks = -400 : 200 : 1800;
-lines!(tgrid, sol[26,:]; linestyle = :dash,linewidth = 3, label = "x=0.05 m")
-lines!(tgrid, sol[51,:]; linestyle = :dashdotdot,linewidth = 3, label = "x=0.1 m (center)")
+ax1.yticks = 0 : 200 : 1800;
+lines!(tgrid, sol[26,:]; linestyle = :dot,linewidth = 3, label = "x=0.05 m")
+lines!(tgrid, sol[51,:]; linestyle = :dash,linewidth = 3, label = "x=0.1 m (center)")
 lines!(tgrid, sol[end,:];linewidth = 3, label = "x=0.2 m (right side)")
 axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
 fig1

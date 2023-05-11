@@ -66,8 +66,8 @@ using CairoMakie
 J = 1000;   
 tgrid = T/J : T/J : T-T/J;
 
-fig1 = Figure(fontsize=12)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 22,
+fig1 = Figure(fontsize=22)
+ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
@@ -81,8 +81,8 @@ fig1
 
 save("results/figures/"*path_al*".pdf", fig1, pt_per_unit = 1)
 
-fig2 = Figure(fontsize=12)
-ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 22,
+fig2 = Figure(fontsize=22)
+ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
@@ -90,7 +90,7 @@ ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize 
     ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
 ax2.xticks = 0 : 100 : T;
-#ax2.yticks = -8e6 : 2e6 : 8e6;
+ax2.yticks = -8e6 : 2e6 : 8e6;
 lines!(tgrid, u_st;linewidth = 3)
 fig2
 

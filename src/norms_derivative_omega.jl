@@ -44,8 +44,8 @@ end
 
 
 using CairoMakie
-fig = Figure(fontsize=12)
-ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 22,
+fig = Figure(fontsize=22)
+ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
@@ -64,8 +64,8 @@ fig
 save("results/figures/"*"norm_omega_der_fix_w_2.pdf", fig, pt_per_unit = 1)
 
 
-fig2 = Figure(fontsize=12)
-ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel =L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 22,
+fig2 = Figure(fontsize=22)
+ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel =L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 24,
     xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
