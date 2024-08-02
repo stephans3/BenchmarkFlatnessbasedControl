@@ -49,36 +49,43 @@ log10(eta_0_st)
 path2results = "results/figures/"
 
 using CairoMakie
-fig = Figure(fontsize=22)
-ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\eta_{i})", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
+begin
+    fig = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\eta_{i})", 
+    xlabelsize = 30,  ylabelsize = 30,
+    xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
     yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
     ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
+    ax1.xticks = idx_grid[1] : 4 : idx_grid[end];
+    ax1.yticks = -15 : 5 : 30;
+    lines!(idx_grid, log_eta_al; linestyle = :dot,linewidth = 3, label = "Aluminum")
+    lines!(idx_grid, log_eta_st; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
+    
+    axislegend(; position = :lb, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig
+    save(path2results*"sequence_eta_al_st.pdf", fig, pt_per_unit = 1)    
+end
 
-ax1.xticks = idx_grid[1] : 4 : idx_grid[end];
-ax1.yticks = -15 : 5 : 30;
-lines!(idx_grid, log_eta_al; linestyle = :dot,linewidth = 3, label = "Aluminum")
-lines!(idx_grid, log_eta_st; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
 
-axislegend(; position = :lb, bgcolor = (:grey90, 0.1));
-fig
-save(path2results*"sequence_eta_al_st.pdf", fig, pt_per_unit = 1)
-
-fig2 = Figure(fontsize=22)
-ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\eta_{i+1} / \eta_{i})", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
+begin
+    fig2 = Figure(size=(800,600), fontsize=26)
+    ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\eta_{i+1} / \eta_{i})", 
+    xlabelsize = 30,  ylabelsize = 30,
+    xgridstyle = :dash, ygridstyle = :dash, 
     xtickalign = 1., xticksize = 10, 
     xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
     yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
     ytickalign = 1, yticksize = 10, xlabelpadding = 0)
-
-ax2.xticks = idx_grid[1] : 4 : idx_grid[end];
-ax2.yticks = -1.5 : 0.5 : 3.0;
-lines!(idx_grid[begin:end-1], ratio_al_log; linestyle = :dot,linewidth = 3, label = "Aluminum")
-lines!(idx_grid[begin:end-1], ratio_st_log; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
-
-axislegend(; position = :lb, bgcolor = (:grey90, 0.1));
-fig2
-save(path2results*"ratio_eta_next_al_st.pdf", fig2, pt_per_unit = 1)
+    
+    ax2.xticks = idx_grid[1] : 4 : idx_grid[end];
+    ax2.yticks = -1.5 : 0.5 : 3.0;
+    lines!(idx_grid[begin:end-1], ratio_al_log; linestyle = :dot,linewidth = 3, label = "Aluminum")
+    lines!(idx_grid[begin:end-1], ratio_st_log; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
+    
+    axislegend(; position = :lb, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig2
+    save(path2results*"ratio_eta_next_al_st.pdf", fig2, pt_per_unit = 1)    
+end

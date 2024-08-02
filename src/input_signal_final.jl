@@ -66,33 +66,39 @@ using CairoMakie
 J = 1000;   
 tgrid = T/J : T/J : T-T/J;
 
-fig1 = Figure(fontsize=22)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+begin
+    fig1 = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = L"Input u $\times 10^5$", 
+        xlabelsize = 30, ylabelsize = 30,  xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
+    u_al_scaled = u_al * 1e-5;
+    ax1.xticks = 0 : 100 : T;
+    ax1.yticks = 0 : 1 : 5;
+    lines!(tgrid, u_al_scaled;linewidth = 3)
+    fig1
+    save("results/figures/"*path_al*".pdf", fig1, pt_per_unit = 1)
+end
 
-ax1.xticks = 0 : 100 : T;
-#ax1.yticks = -40 : 10 : 40;
-lines!(tgrid, u_al;linewidth = 3)
-fig1
+begin
+    fig2 = Figure(size=(800,600), fontsize=26)
+    ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = L"Input u $\times 10^6$", 
+        xlabelsize = 30, ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
 
-save("results/figures/"*path_al*".pdf", fig1, pt_per_unit = 1)
-
-fig2 = Figure(fontsize=22)
-ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = "Input u", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
-
-ax2.xticks = 0 : 100 : T;
-ax2.yticks = -8e6 : 2e6 : 8e6;
-lines!(tgrid, u_st;linewidth = 3)
-fig2
-
-save("results/figures/"*path_st*".pdf", fig2, pt_per_unit = 1)
-
+    u_st_scaled = u_st * 1e-6;
+    ax2.xticks = 0 : 100 : T;
+    ax2.yticks = -8 : 2 : 8;
+    lines!(tgrid, u_st_scaled;linewidth = 3)
+    fig2
+    
+    save("results/figures/"*path_st*".pdf", fig2, pt_per_unit = 1)    
+end

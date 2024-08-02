@@ -44,42 +44,52 @@ end
 
 
 using CairoMakie
-fig = Figure(fontsize=22)
-ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
-idx_grid = 0:size(h_norm_T)[1]-1;    
-ax1.xticks = idx_grid[1] : 10 : idx_grid[end];
-ax1.yticks = -40 : 10 : 40;
-lines!(idx_grid, h_norm_T[:,1]; linestyle = :dot,linewidth = 3, label = "T=10")
-lines!(idx_grid, h_norm_T[:,2]; linestyle = :dash, linewidth = 3, label = "T=100")
-lines!(idx_grid, h_norm_T[:,3]; linewidth = 3, label = "T=1000")
+begin
+    fig = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", 
+            xlabelsize = 30,  ylabelsize = 30,
+            xgridstyle = :dash, ygridstyle = :dash, 
+            xtickalign = 1., xticksize = 10, 
+            xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+            yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+            ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
-axislegend(; position = :lb, bgcolor = (:grey90, 0.1));
-fig
-save("results/figures/"*"norm_omega_der_fix_w_2.pdf", fig, pt_per_unit = 1)
+    
+    idx_grid = 0:size(h_norm_T)[1]-1;    
+    ax1.xticks = idx_grid[1] : 10 : idx_grid[end];
+    ax1.yticks = -40 : 10 : 40;
+    lines!(idx_grid, h_norm_T[:,1]; linestyle = :dot,linewidth = 3, label = "T=10")
+    lines!(idx_grid, h_norm_T[:,2]; linestyle = :dash, linewidth = 3, label = "T=100")
+    lines!(idx_grid, h_norm_T[:,3]; linewidth = 3, label = "T=1000")
+    
+    axislegend(; position = :lb, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig
+    save("results/figures/"*"norm_omega_der_fix_w_2.pdf", fig, pt_per_unit = 1)
+end
+
+begin
+    fig2 = Figure(size=(800,600), fontsize=26)
+    ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel =L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", 
+        xlabelsize = 30, ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
+    idx_grid = 0:size(h_norm_w)[1]-1;    
+    ax2.xticks = idx_grid[1] : 10 : idx_grid[end];
+    #ax2.yticks = -60 : 10 : 0;
+    lines!(idx_grid, h_norm_w[:,1]; linestyle = :dot,linewidth = 3, label = "w=1.1")
+    lines!(idx_grid, h_norm_w[:,2]; linestyle = :dash, linewidth = 3, label = "w=1.5")
+    lines!(idx_grid, h_norm_w[:,3]; linewidth = 3, label = "w=2.0")
+    lines!(idx_grid, h_norm_w[:,4]; linestyle = :dash, linewidth = 3, label = "w=2.5")
+    lines!(idx_grid, h_norm_w[:,5]; linestyle = :dot, linewidth = 3, label = "w=3.0")
+    axislegend(; position = :lb, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig2
+    save("results/figures/"*"norm_omega_der_fix_T_1000.pdf", fig2, pt_per_unit = 1)
+end
 
 
-fig2 = Figure(fontsize=22)
-ax2 = Axis(fig2[1, 1], xlabel = "Iteration i", ylabel =L"\log_{10}(||\Omega_{\omega,T}^{(i)}||/\hat{\Omega}_{\omega,T})", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
-idx_grid = 0:size(h_norm_w)[1]-1;    
-ax2.xticks = idx_grid[1] : 10 : idx_grid[end];
-#ax2.yticks = -60 : 10 : 0;
-lines!(idx_grid, h_norm_w[:,1]; linestyle = :dot,linewidth = 3, label = "w=1.1")
-lines!(idx_grid, h_norm_w[:,2]; linestyle = :dash, linewidth = 3, label = "w=1.5")
-lines!(idx_grid, h_norm_w[:,3]; linewidth = 3, label = "w=2.0")
-lines!(idx_grid, h_norm_w[:,4]; linestyle = :dash, linewidth = 3, label = "w=2.5")
-lines!(idx_grid, h_norm_w[:,5]; linestyle = :dot, linewidth = 3, label = "w=3.0")
-axislegend(; position = :lb, bgcolor = (:grey90, 0.1));
-fig2
-save("results/figures/"*"norm_omega_der_fix_T_1000.pdf", fig2, pt_per_unit = 1)

@@ -46,41 +46,48 @@ for (idx, w) in enumerate(w_vec)
 end
 
 using CairoMakie
-fig1 = Figure(fontsize=22)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel= L"\text{Transition } \Phi_{\omega,T}", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+begin
+    fig1 = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel= L"\text{Transition } \Phi_{\omega,T}", 
+            xlabelsize = 30,  ylabelsize = 30,
+            xgridstyle = :dash, ygridstyle = :dash, 
+            xtickalign = 1., xticksize = 10, 
+            xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+            yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+            ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
+    ax1.xticks = 0 : 10 : Tf;
+    ax1.yticks = 0. : 0.25 : 1;
+    lines!(tgrid, Φ[:,1];linestyle = :dot, linewidth = 3, label = L"\omega=1.1")
+    lines!(tgrid, Φ[:,2];linestyle = :dash, linewidth = 3, label=L"\omega=1.5")
+    lines!(tgrid, Φ[:,3];linewidth = 3, label=L"\omega=2.0")
+    lines!(tgrid, Φ[:,4];linestyle = :dash, linewidth = 3, label=L"\omega=2.5")
+    lines!(tgrid, Φ[:,5];linestyle = :dot, linewidth = 3, label=L"\omega=3.0")
+    axislegend(; position = :lt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig1
+    save("results/figures/"*"transition_trajectory_orig.pdf", fig1, pt_per_unit = 1)    
+end
 
-ax1.xticks = 0 : 10 : Tf;
-ax1.yticks = 0. : 0.25 : 1;
-lines!(tgrid, Φ[:,1];linestyle = :dot, linewidth = 3, label = L"\omega=1.1")
-lines!(tgrid, Φ[:,2];linestyle = :dash, linewidth = 3, label=L"\omega=1.5")
-lines!(tgrid, Φ[:,3];linewidth = 3, label=L"\omega=2.0")
-lines!(tgrid, Φ[:,4];linestyle = :dash, linewidth = 3, label=L"\omega=2.5")
-lines!(tgrid, Φ[:,5];linestyle = :dot, linewidth = 3, label=L"\omega=3.0")
-axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
-fig1
-save("results/figures/"*"transition_trajectory_orig.pdf", fig1, pt_per_unit = 1)
 
-fig2 = Figure(fontsize=22)
-ax1 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel=L"\text{Derivative  } \frac{d}{dt} \Phi_{\omega,T}", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+begin
+    fig2 = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel=L"\text{Derivative  } \frac{d}{dt} \Phi_{\omega,T}", 
+            xlabelsize = 30,  ylabelsize = 30,
+            xgridstyle = :dash, ygridstyle = :dash, 
+            xtickalign = 1., xticksize = 10, 
+            xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+            yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+            ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
-ax1.xticks = 0 : 10 : Tf;
-#ax1.yticks = 0. : 0.25 : 1;
-lines!(tgrid, d1Φ[:,1];linestyle = :dot, linewidth = 3, label = L"\omega=1.1")
-lines!(tgrid, d1Φ[:,2];linestyle = :dash, linewidth = 3, label=L"\omega=1.5")
-lines!(tgrid, d1Φ[:,3];linewidth = 3, label=L"\omega=2.0")
-lines!(tgrid, d1Φ[:,4];linestyle = :dash, linewidth = 3, label=L"\omega=2.5")
-lines!(tgrid, d1Φ[:,5];linestyle = :dot, linewidth = 3, label=L"\omega=3.0")
-axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
-fig2
-save("results/figures/"*"transition_trajectory_deriv.pdf", fig2, pt_per_unit = 1)
+    ax1.xticks = 0 : 10 : Tf;
+    #ax1.yticks = 0. : 0.25 : 1;
+    lines!(tgrid, d1Φ[:,1];linestyle = :dot, linewidth = 3, label = L"\omega=1.1")
+    lines!(tgrid, d1Φ[:,2];linestyle = :dash, linewidth = 3, label=L"\omega=1.5")
+    lines!(tgrid, d1Φ[:,3];linewidth = 3, label=L"\omega=2.0")
+    lines!(tgrid, d1Φ[:,4];linestyle = :dash, linewidth = 3, label=L"\omega=2.5")
+    lines!(tgrid, d1Φ[:,5];linestyle = :dot, linewidth = 3, label=L"\omega=3.0")
+    axislegend(; position = :lt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig2
+    save("results/figures/"*"transition_trajectory_deriv.pdf", fig2, pt_per_unit = 1)        
+end
 

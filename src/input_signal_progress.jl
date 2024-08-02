@@ -87,73 +87,86 @@ using CairoMakie
 J = 1000;   
 tgrid = T/J : T/J : T-T/J;
 
-fig1 = Figure(fontsize=22)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = L"\text{Input } u_{N}", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
-
-ax1.xticks = 0 : 100 : T;
-#ax1.yticks = -40 : 10 : 40;
-lines!(tgrid, u_al_sum[:,1]; linestyle = :dot,linewidth = 3, label = "N=1")
-lines!(tgrid, u_al_sum[:,3];linestyle = :dash, linewidth = 3, label = "N=3")
-lines!(tgrid, u_al_sum[:,7];linewidth = 3, label = "N=7")
-axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
-fig1
-save("results/figures/"*"u_input_aluminum_progress.pdf", fig1, pt_per_unit = 1)
-
-
-fig2 = Figure(fontsize=22)
-ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = L"\text{Input } u_{N}", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
-
-ax2.xticks = 0 : 100 : T;
-ax2.yticks = -3e7 : 1e7 : 4e7;
-lines!(tgrid, u_st_sum[:,5]; linestyle = :dot,linewidth = 3, label = "N=5")
-lines!(tgrid, u_st_sum[:,10];linestyle = :dash, linewidth = 3, label = "N=10")
-lines!(tgrid, u_st_sum[:,15];linewidth = 3, label = "N=15")
-axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
-fig2
-save("results/figures/"*"u_input_steel_progress.pdf", fig2, pt_per_unit = 1)
-
-
-fig3 = Figure(fontsize=22)
-ax3 = Axis(fig3[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\mu_{i})", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0);
+begin
+    fig1 = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = L"Input $u_{N}$ $\times 10^5$", 
+        xlabelsize = 30,  ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
     
-idx_grid = 0:size(u_al_all)[2]-1;
-ax3.xticks = idx_grid[1] : 10 : idx_grid[end];
-ax3.yticks = -50 : 10 : 20;
-lines!(idx_grid, u_al_norm_2_log10; linestyle = :dot,linewidth = 3, label = "Aluminum")
-lines!(idx_grid, u_st_norm_2_log10; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
-axislegend(; position = :rt, bgcolor = (:grey90, 0.1));
-fig3
-save("results/figures/"*"norm_mu_absolute.pdf", fig3, pt_per_unit = 1)
+    u_al_sum_scaled = u_al_sum*1e-5;
+    ax1.xticks = 0 : 100 : T;
+    ax1.yticks = 0 : 1 : 4;
+    lines!(tgrid, u_al_sum_scaled[:,1]; linestyle = :dot,linewidth = 3, label = "N=1")
+    lines!(tgrid, u_al_sum_scaled[:,3];linestyle = :dash, linewidth = 3, label = "N=3")
+    lines!(tgrid, u_al_sum_scaled[:,7];linewidth = 3, label = "N=7")
+    axislegend(; position = :lt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig1
+    save("results/figures/"*"u_input_aluminum_progress.pdf", fig1, pt_per_unit = 1)    
+end
+
+begin
+    fig2 = Figure(size=(800,600), fontsize=26)
+    ax2 = Axis(fig2[1, 1], xlabel = "Time t in [s]", ylabel = L"Input $u_{N}$ $\times 10^7$", 
+        xlabelsize = 30,  ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+
+    u_st_sum_scaled = u_st_sum*1e-7;        
+    ax2.xticks = 0 : 100 : T;
+    ax2.yticks = -3 : 1 : 4;
+    lines!(tgrid, u_st_sum_scaled[:,5]; linestyle = :dot,linewidth = 3, label = "N=5")
+    lines!(tgrid, u_st_sum_scaled[:,10];linestyle = :dash, linewidth = 3, label = "N=10")
+    lines!(tgrid, u_st_sum_scaled[:,15];linewidth = 3, label = "N=15")
+    axislegend(; position = :lt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig2
+    save("results/figures/"*"u_input_steel_progress.pdf", fig2, pt_per_unit = 1)
+end
+
+begin
+    fig3 = Figure(size=(800,600), fontsize=26)
+    ax3 = Axis(fig3[1, 1], xlabel = "Iteration i", ylabel = L"\log_{10}(\mu_{i})", 
+        xlabelsize = 30,  ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+
+    idx_grid = 0:size(u_al_all)[2]-1;
+    ax3.xticks = idx_grid[1] : 10 : idx_grid[end];
+    ax3.yticks = -50 : 10 : 20;
+    lines!(idx_grid, u_al_norm_2_log10; linestyle = :dot,linewidth = 3, label = "Aluminum")
+    lines!(idx_grid, u_st_norm_2_log10; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
+    axislegend(; position = :rt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig3
+    save("results/figures/"*"norm_mu_absolute.pdf", fig3, pt_per_unit = 1)    
+end
 
 
-fig4 = Figure(fontsize=22)
-ax4 = Axis(fig4[1, 1], xlabel = "Iteration i", ylabel = L" \mu_{i} / \max(\mu_{j}) \text{ , } j\in \{ 11,...,i \}", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0);
-    
-idx_grid = 0:size(u_al_all)[2]-1;
-ax4.xticks = idx_grid[1] : 10 : idx_grid[end];
-#ax4.yticks = 0 : 0.1 : 1;
-lines!(idx_grid, norm_rel_al; linestyle = :dot,linewidth = 3, label = "Aluminum")
-lines!(idx_grid, norm_rel_st; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
-axislegend(; position = :rt, bgcolor = (:grey90, 0.1));
-fig4
-save("results/figures/"*"norm_mu_relative.pdf", fig4, pt_per_unit = 1)
+begin
+    fig4 = Figure(size=(800,600), fontsize=26)
+    ax4 = Axis(fig4[1, 1], xlabel = "Iteration i", ylabel = L" \mu_{i} / \max(\mu_{j}) \text{ , } j\in \{ 11,...,i \}", 
+        xlabelsize = 30,  ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+        
+    idx_grid = 0:size(u_al_all)[2]-1;
+    ax4.xticks = idx_grid[1] : 10 : idx_grid[end];
+    #ax4.yticks = 0 : 0.1 : 1;
+    lines!(idx_grid, norm_rel_al; linestyle = :dot,linewidth = 3, label = "Aluminum")
+    lines!(idx_grid, norm_rel_st; linestyle = :dash, linewidth = 3, label = "Steel 38Si7")
+    axislegend(; position = :rt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig4
+    save("results/figures/"*"norm_mu_relative.pdf", fig4, pt_per_unit = 1)    
+end
+

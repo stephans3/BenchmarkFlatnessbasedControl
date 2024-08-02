@@ -91,20 +91,24 @@ sol = solve(prob,alg, saveat = dt)
 using CairoMakie
 tgrid = sol.t;
 
-fig1 = Figure(fontsize=20)
-ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", ylabelsize = 24,
-    xlabelsize = 24, xgridstyle = :dash, ygridstyle = :dash, 
-    xtickalign = 1., xticksize = 10, 
-    xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
-    yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
-    ytickalign = 1, yticksize = 10, xlabelpadding = 0)
 
-ax1.xticks = 0 : 100 : Tf;
-ax1.yticks = 0 : 200 : 1800;
-lines!(tgrid, sol[26,:]; linestyle = :dot,linewidth = 3, label = "x=0.05 m")
-lines!(tgrid, sol[51,:]; linestyle = :dash,linewidth = 3, label = "x=0.1 m (center)")
-lines!(tgrid, sol[end,:];linewidth = 3, label = "x=0.2 m (right side)")
-axislegend(; position = :lt, bgcolor = (:grey90, 0.1));
-fig1
-save("results/figures/"*"he_steel.pdf", fig1, pt_per_unit = 1)
+begin
+    fig1 = Figure(size=(800,600), fontsize=26)
+    ax1 = Axis(fig1[1, 1], xlabel = "Time t in [s]", ylabel = "Temperature in [K]", 
+        xlabelsize = 30,  ylabelsize = 30,
+        xgridstyle = :dash, ygridstyle = :dash, 
+        xtickalign = 1., xticksize = 10, 
+        xminorgridvisible = true, xminorticksvisible = true, xminortickalign = 1,
+        yminorgridvisible = true, yminorticksvisible = true, yminortickalign = 1,
+        ytickalign = 1, yticksize = 10, xlabelpadding = 0)
+    
+    ax1.xticks = 0 : 100 : Tf;
+    ax1.yticks = 0 : 200 : 1800;
+    lines!(tgrid, sol[26,:]; linestyle = :dot,linewidth = 3, label = "x=0.05 m")
+    lines!(tgrid, sol[51,:]; linestyle = :dash,linewidth = 3, label = "x=0.1 m (center)")
+    lines!(tgrid, sol[end,:];linewidth = 3, label = "x=0.2 m (right side)")
+    axislegend(; position = :rt, backgroundcolor = (:grey90, 0.1), labelsize=30);
+    fig1
+    save("results/figures/"*"he_steel.pdf", fig1, pt_per_unit = 1)        
+end
 
